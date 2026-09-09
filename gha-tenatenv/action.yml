@@ -1,0 +1,21 @@
+name: "Getting the tenant details"
+description: "Tenant Details Mapping"
+author: "Sridevi"
+inputs: 
+  tenant:
+    description: "environment"
+    required: true
+outputs:
+  tenant_value:
+    description: "tenant value"
+    value: ${{ steps.sci_env.outputs.tenant_value }}    
+runs:
+  using: "composite"
+  steps:        
+      - name: tenant for Storage Account
+        shell: pwsh
+        id: sci_env
+        run: |
+          $tenant= "${{ inputs.tenant }}"
+          $tenant_value= ./gha-tenantenv/env-check.ps1 -tenant $tenant
+          Write-Output "tenant_value=$($tenant_value)" >> $env:GITHUB_OUTPUT
