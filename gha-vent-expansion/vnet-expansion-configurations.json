@@ -1,0 +1,142 @@
+{
+    "Comment_For_Prod_Scoped_ManagementGroup" : "Scoped Management Group list",
+    "Prod_ManagementGroupList"                : {
+        "ManagementGroupList"                 : ["azure-cloud-platform"]
+    },
+
+    "Comment_For_Prod_Excluded_Subscriptions" : "Out of Scoped Subscriptions keywords",
+    "Prod_Excluded_Subscriptions"             : {
+        "Excluded_Subscriptions"              : ["-rrt-","-nespresso-","nesp-","aiops","-it-hub-"]
+    },
+
+    "Comment_For_Prod_VNet_Expansion_Types" : "VNet Expansion Types",
+    "Prod_VNet_Expansion_Types"             : {
+        "VNet_Expansion_Types"              : ["Standard", "FiT"]
+    },
+
+    "Comment_For_Email_Information" : "Email Notification Details",
+    "Prod_Email_Information"        : {
+    	"Successful_To"             : ["itpdccnetworknestleinternal@nestle.com", "itpdccnetworkwiprooffshore@nestle.com"],
+	"Failed_CC"                 : ["itpdccnetworknestleinternal@nestle.com", "itpdccnetworkwiprooffshore@nestle.com"],    
+	"Failed_To"                 : ["XSCloudAutomation@internal.nestle.com"],
+        "Subject"	            : "VNet Expansion Automation - Daily Update",
+	"else_content"              : "All VNets have address spaces within the defined threshold limit.", 
+	"if_content"                : "Please find the table below for VNet Expansion.",
+	"if_Error_Content"          : "Please find the table below for VNet Expansion, prior to the failure.",
+	"else_Error_Content"        : "All VNets have address spaces within the defined threshold limit, prior to the failure."
+    },
+	
+    "Comment_For_Prod_FiT_Excluded_Subscriptions" : "Out of Scoped Subscriptions keywords for FiT VNet Expansion only",
+    "Prod_FiT_Excluded_Subscriptions"             : {
+        "Excluded_Subscriptions"                  : ["-it-hub-"]
+    },
+
+    "Comment_For_Prod_FiT_NetworkPrefix" : "Network Prefix for FiT VNet Expansion",
+    "Prod_FiT_NetworkPrefix"             : {
+        "NetworkPrefix"                  : "24"
+    },    
+
+    "Comment_For_Prod_Standard_NetworkPrefix" : "Network Prefix for Standard VNet Expansion",
+    "Prod_Standard_NetworkPrefix"             : {
+        "NetworkPrefix"                       : "24"
+    }, 
+
+    "Comment_For_Prod_RTB_ExclusionList" : "Below are the keywords of route table names where UDR update has to be skipped",
+    "Prod_RTB_ExclusionList"             : {
+        "RTB_ExclusionList"              : ["non-routable", "nonroutable", ".sgi-", ".sgtransit-", "-dmzappgw-", "-f5lb", "-f5lbmgt-", "-ise-"]
+    }, 
+
+    "Comment_For_Internet_UDR_RTBsList" : "Below are the keywords of route table names where UDR next hop IP Address should be Internet Firewall IP",
+    "Prod_Internet_UDR_RTBsList"        : { 
+        "Internet_UDR_RTBsList"         : ["-pcs-", "-ftg-"]
+    }, 
+
+    "Comment_For_FiT_RTBsList" : "Below are the keywords of route table names of FiT RTBs",
+    "Prod_FiT_RTBsList"        : { 
+        "FiT_RTBsList"         : ["-fit.", "-fd."]
+    },
+
+    "Comment_For_HubSubscriptionsMatchKeywords" : "Keywords in the Subscriptions to represent network ithub Network Subscription",
+    "Prod_HubSubscriptionsMatchKeywords"        : { 
+        "HubSubscriptionsMatchKeywords"         : ["-it-hub-"]
+    },
+
+    "Comment_For_HubRGsMatchKeywords" : "Keywords under the RGs to represent ithub Network RG",
+    "Prod_HubRGsMatchKeywords"        : { 
+        "HubRGsMatchKeywords"         : ["ithub"]
+    },
+	
+    "Comment_For_Route_Names"               : "UDR Names Information",
+    "Prod_Route_Names"                      : { 
+        "Spoke_Self_Standard_Route_Name"    : "RTInside",
+        "Spoke_Self_FiT_Route_Name"         : "RTInside",
+        "Spoke_Peering_Standard_Route_Name" : "RT",
+        "Spoke_Peering_FiT_Route_Name"      : "RT_FiT",
+        "Hub_Self_Standard_Route_Name"      : "RTInside",
+        "Hub_Peering_Standard_Route_Name"   : "RT_Hub"
+    },
+	
+    "Comment_For_UDR_Details"    : "UDR Information",
+    "Prod_UDR_Details"           : { 
+        "Standard_FiT_RTBs"      : {"Next Hop Type" : "VirtualAppliance", "Next Hop IP Address" : "Internal Firewall IP"},
+        "Standard_Standard_RTBs" : {"Next Hop Type" : "VirtualAppliance", "Next Hop IP Address" : "Internal Firewall IP"},
+        "Standard_Special_RTBs"  : {"Next Hop Type" : "VirtualAppliance", "Next Hop IP Address" : "Internet Firewall IP"},
+        "FiT_FiT_RTBs"           : {"Next Hop Type" : "VnetLocal"       , "Next Hop IP Address" : ""                    },
+        "FiT_Standard_RTBs"      : {"Next Hop Type" : "VirtualAppliance", "Next Hop IP Address" : "Internal Firewall IP"},
+        "FiT_Special_RTBs"       : {"Next Hop Type" : "VirtualAppliance", "Next Hop IP Address" : "Internet Firewall IP"}
+    }, 
+
+    "Comment_For_Prod_Scoped_Regions" : "Prod scoped regions to fetch the Internal and Internet Firewall IPs",
+    "Prod_Scoped_Regions"             : {
+         "scoped-scopeandenvironment" : ["nams-pr", "nams-np", "emna-pr", "emna-np", "naoa-pr", "naoa-np"],
+         "scoped-location"            : ["eastus","westeurope","southeastasia"],
+         "scoped-environments"        : ["pr","np"],
+         "eastus-pr"                  : "nams-pr",
+         "eastus-np"                  : "nams-np",
+         "westeurope-pr"              : "emna-pr",
+         "westeurope-np"              : "emna-np",
+         "southeastasia-pr"           : "naoa-pr",
+         "southeastasia-np"           : "naoa-np"
+     },
+    
+    "Comment_For_Prod_Internal_Firewall_IPs" : "Internal Firewall IPs as per region and environment",
+    "Prod_Internal_Firewall_IPs"             : {
+        "nams-pr-internal"                   : "10.234.24.10",
+        "nams-np-internal"                   : "10.234.16.4",
+        "emna-pr-internal"                   : "10.235.24.4",
+        "emna-np-internal"                   : "10.235.16.4",
+        "naoa-pr-internal"                   : "10.236.24.4",
+        "naoa-np-internal"                   : "10.236.16.4"
+   },
+
+   "Comment_For_Prod_Internet_Firewall_IPs" : "Internet Firewall IPs as per region and environment",
+   "Prod_Internet_Firewall_IPs"             : {
+        "nams-pr-internet"                  : "10.234.24.13",
+        "nams-np-internet"                  : "10.234.16.10",
+        "emna-pr-internet"                  : "10.235.24.25",
+        "emna-np-internet"                  : "10.235.16.10",
+        "naoa-pr-internet"                  : "10.236.24.10",
+        "naoa-np-internet"                  : "10.236.16.10"
+   },
+	
+    "Comment_For_Prod_Standard_ReservedIPRanges"   : "Below are the Reserved IP Ranges of Production/ch Tenant",
+    "Prod_Standard_ReservedRanges"                 : {
+        "nams-pr"                                  : ["10.185.0.0/17", "10.140.0.0/19", "10.140.32.0/20", "10.140.48.0/21", "10.140.56.0/22"],
+	"nams-np"                                  : ["10.185.192.0/19", "10.185.128.0/18", "10.140.128.0/18"],
+  	"emna-pr"                                  : ["10.187.0.0/17", "10.15.0.0/18"],
+	"emna-np"                                  : ["10.187.192.0/20", "10.187.208.0/21", "10.187.240.0/20", "10.187.216.0/22", "10.187.128.0/18", "10.15.128.0/18"],
+	"naoa-pr"                                  : ["10.189.0.0/17", "10.189.128.0/18"],
+	"naoa-np"                                  : ["10.189.192.0/18"]
+    },
+	
+    "Comment_For_Prod_FiT_ReservedIPRanges" : "Below are the Reserved IP Ranges of Production/ch Tenant",
+    "Prod_FiT_ReservedRanges"               : {
+	"nams-pr"                           : ["10.186.24.0/21", "10.186.32.0/19", "10.186.64.0/21", "10.186.72.0/21", "10.186.128.0/17", "10.140.64.0/18"],
+	"nams-np"                           : ["10.186.0.0/20", "10.186.16.0/21", "10.186.80.0/21", "10.186.88.0/21", "10.186.96.0/19", "10.140.192.0/18"],
+	"emna-pr"                           : ["10.188.24.0/21", "10.188.32.0/19", "10.188.64.0/20", "10.188.80.0/21", "10.188.88.0/24", "10.188.128.0/17", "10.15.64.0/18"],
+	"emna-np"                           : ["10.188.0.0/20", "10.188.16.0/21", "10.188.89.0/24", "10.188.90.0/23", "10.188.92.0/22", "10.188.96.0/19", "10.15.192.0/18"],
+	"naoa-pr"                           : ["10.190.20.0/22", "10.190.24.0/22", "10.190.28.0/22", "10.190.32.0/19", "10.190.64.0/24", "10.190.128.0/17"],
+      	"naoa-np"                           : ["10.190.0.0/20", "10.190.16.0/22", "10.190.65.0/24", "10.190.66.0/23", "10.190.68.0/22", "10.190.72.0/21", "10.190.80.0/20", "10.190.96.0/19"]  
+    }
+}
+
