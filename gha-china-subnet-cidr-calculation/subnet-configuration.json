@@ -1,0 +1,13 @@
+{ 
+    "Comment_For_ReservedIPRanges"   : "Below are the Reserved IP Ranges",
+    "China_ReservedIPRanges"          : {
+        "ReservedIPRanges"           : {
+            "Standard"               : {
+                "IP_Range"           : ["10.237.0.0/16", "10.117.0.0/16", "10.236.0.0/16", "10.185.0.0/16", "10.187.0.0/16" , "10.189.0.0/16"]
+            },
+            "FiT"                    : {
+                "ngcr"               : ["10.82.0.0/16"]
+            }
+        }
+    }
+}
