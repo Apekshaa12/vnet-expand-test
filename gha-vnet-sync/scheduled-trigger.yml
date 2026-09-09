@@ -1,0 +1,14 @@
+name: Scheduled Trigger
+on:
+  #schedule:
+  #  - cron:  '18 10 * * *'
+  workflow_dispatch:
+
+permissions:
+    id-token: write
+    contents: read
+      
+jobs:
+  trigger-vnet-expansion:
+    name: Trigger Workflow VNet Expansion 
+    uses: "nestle-it/iac-azure-network/.github/workflows/vnet-expansion.yml@feat/testing_vnetexp"
