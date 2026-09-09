@@ -1,0 +1,71 @@
+name: VNet Expansion
+on:
+  workflow_dispatch: 
+  schedule:
+  - cron: "00 22 * * *" # Runs at 10:30 PM UTC (4 AM IST) 
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs: #new
+
+  setting_environment:
+    name: setting_azure_environment
+    runs-on: [self-hosted, "${{ vars.RUNNER_NAME }}"]
+    outputs:
+      tenant_value: ${{ steps.set-env.outputs.tenant_value }}
+      
+    steps:
+    
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fetching the Azure Environment
+        id: set-env
+        uses: ./gha-tenantenv/
+        with:
+          tenant: "${{ vars.TENANT_NAME }}"
+        
+  automate_vnet_expansion:
+    needs: [setting_environment]
+    runs-on: [self-hosted, "${{ vars.RUNNER_NAME }}"]
+    environment: "${{ needs.setting_environment.outputs.tenant_value }}"
+    env:   
+      ARM_CLIENT_ID: ${{ vars.CLIENT_ID }}
+      ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+      client_id: ${{ secrets.CLIENT_ID }}
+      client_secret: ${{ secrets.CLIENT_SECRET }}
+    steps:
+    
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+    
+      - name: AZ CLI Login
+        id: azlogin
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.CLIENT_ID }}
+          tenant-id: ${{ vars.TENANT_ID }}
+          allow-no-subscriptions: true
+          enable-AzPSSession: true
+          
+      - name: Standard and FiT VNet Expansion
+        id: vnet-exp
+        uses: ./gha-vnet-expansion/
+        with:
+          adoPat: "${{ secrets.NPET_VNET_EXPANSION_GH_PAT }}"
+          service_account_user: "${{ vars.SERVICE_ACCOUNT_USER }}"
+          service_account_password: "${{ secrets.SERVICE_ACCOUNT_PASSWORD }}"
+          source_directory: "${{ github.workspace }}"
+          tenant: "Prod"
+          port: "${{ vars.PORT }}"
+          smtp_server: "${{ vars.SMTP_SERVER }}"
+          run_number: "${{ github.run_number }}"
+          
+      - name: Create ITOM Alert on Failure
+        if: failure() || steps.vnet-exp.outcome == 'failure'
+        uses: nestle-it/gha-npet/gha-create-itom-alert-network-team@gha-itom
+        with:
+          pipeline_name: "VNet Expansion"
+          workflowUrl: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
