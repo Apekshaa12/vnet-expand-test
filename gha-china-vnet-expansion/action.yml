@@ -1,0 +1,49 @@
+name: Expansion of VNets (Standard and FiT)
+description: "Expansion of VNet (Standard and FiT)"
+author: "Naga Sridevi"
+inputs:     
+ adoPat:
+   description: "Azure DevOps Prod PAT"
+   required: true
+ service_account_user:
+   description: "Service Account User"
+   required: true
+ service_account_password:
+   description: "Service Account Password"
+   required: true
+ source_directory:
+   description: "Source Directory Path"
+   required: true
+ tenant:
+   description: "Tenant Type"
+   required: true
+ port:
+   description: "Port Number"
+   required: true
+ smtp_server:
+   description: "SMTP Server"
+   required: true
+ run_number:
+   description: "Run Number"
+   required: true
+runs:
+  using: "composite"
+  steps:        
+    - name: 'Standard and FiT VNet Expansion'
+      shell: pwsh
+      id: exp-vnet
+      run: |
+        $adoPat                   = "${{ inputs.adoPat }}"
+        $service_account_user     = "${{ inputs.service_account_user }}"
+        $service_account_password = "${{ inputs.service_account_password }}"
+        $source_directory         = "${{ inputs.source_directory }}"
+        $tenant                   = "${{ inputs.tenant }}"
+        $port                     = "${{ inputs.port }}"
+        $smtp_server              = "${{ inputs.smtp_server }}"
+        $run_number               = "${{ inputs.run_number }}"
+         
+        . ./gha-china-vnet-expansion/vnet-expansions.ps1
+        
+        vnet-expansion -adoPat "$adoPat" -service_account_user "$service_account_user" `
+        -service_account_password "$service_account_password" -source_directory "$source_directory" -tenant "$tenant" `
+        -port $port -smtp_server "$smtp_server" -run_number "$run_number"
