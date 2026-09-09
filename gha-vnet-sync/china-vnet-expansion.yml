@@ -1,0 +1,64 @@
+name: VNet China Expansion
+on:
+  workflow_dispatch: 
+  schedule:
+  - cron: "00 23 * * *" # Runs at 10:30 PM UTC (4 AM IST) 
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs: #new
+
+  setting_environment:
+    name: setting_azure_environment
+    runs-on: [self-hosted, "${{ vars.RUNNER_NAME }}"]
+    outputs:
+      tenant_value: ${{ steps.set-env.outputs.tenant_value }}
+      
+    steps:
+    
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fetching the Azure Environment
+        id: set-env
+        uses: ./gha-tenantenv/
+        with:
+          tenant: "${{ vars.CHINA_TENANT_NAME }}"
+        
+  automate_vnet_expansion:
+    needs: [setting_environment]
+    runs-on: [self-hosted, "${{ vars.RUNNER_NAME }}"]
+    environment: "${{ needs.setting_environment.outputs.tenant_value }}"
+    env:   
+      ARM_TENANT_ID: ${{ vars.TENANT_ID }}
+      ARM_CLIENT_ID: ${{ vars.CLIENT_ID }}
+      
+    steps:
+    
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+    
+      - name: AZ CLI Login
+        id: azlogin
+        uses: azure/login@v1
+        with:
+          client-id: ${{ vars.CLIENT_ID }}
+          tenant-id: ${{ vars.TENANT_ID }}
+          allow-no-subscriptions: true
+          enable-AzPSSession: true
+          environment: azurechinacloud
+          
+      - name: Standard and FiT VNet Expansion
+        id: vnet-exp
+        uses: ./gha-china-vnet-expansion/
+        with:
+          adoPat: "${{ secrets.PAT }}"
+          service_account_user: "${{ vars.SERVICE_ACCOUNT_USER }}"
+          service_account_password: "${{ secrets.SERVICE_ACCOUNT_PASSWORD }}"
+          source_directory: "${{ github.workspace }}"
+          tenant: "China"
+          port: "${{ vars.PORT }}"
+          smtp_server: "${{ vars.SMTP_SERVER }}"
+          run_number: "${{ github.run_number }}"
